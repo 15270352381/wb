@@ -20,3 +20,9 @@ Route::get('/about', 'StaticPagesController@about')->name('about');
 Route::get('signup', 'UsersController@create')->name('signup');
 //对用户数据进行增删改查
 Route::resource('users', 'UsersController');
+//登录
+Route::get('login', 'SessionsController@create')->name('login');
+//登录逻辑
+Route::post('login', 'SessionsController@store')->name('login');
+//退出登录
+Route::delete('logout', 'SessionsController@destroy')->name('logout');

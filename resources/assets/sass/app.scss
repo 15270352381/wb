@@ -116,6 +116,12 @@ p {
     color: #fff;
   }
 }
+#logout {
+  cursor: default;
+  &:hover {
+    background-color: transparent;
+  }
+}
 
 /* sidebar */
 
@@ -171,4 +177,6 @@ input {
 .panel {
   margin-top: 50px;
 }
+
+
 
