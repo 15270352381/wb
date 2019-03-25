@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Auth;
+use Mail;
 
 
 class UsersController extends Controller
@@ -16,7 +17,7 @@ class UsersController extends Controller
 	public function __construct()
 	{
 		$this->middleware('auth', [
-				'except' => ['show', 'create', 'store', 'index']
+				'except' => ['show', 'create', 'store', 'index', 'confirmEmail']
 			]);
 		//只让没登录的用户访问注册页面
 		$this->middleware('guest', [
@@ -63,11 +64,11 @@ class UsersController extends Controller
     			'email' => $request->email,
     			'password' => bcrypt($request->password),
     		]);
-    	// 注册后自动登录
-    	Auth::login($user);
-    	//添加注册提示信息
-    	session()->flash('success', '欢迎！你将开始一段不一样的旅程~');
-    	return redirect()->route('users.show', [$user]);
+    	// 注册进行激活
+    	$this->sendEmailConfirmationTo($user);
+    	//添加需要激活提示信息
+    	session()->flash('success', '验证邮件已发送到你的注册邮箱上，请注意查收。');
+    	return redirect('/');
     }
     /**
      * 编辑登录显示
@@ -115,5 +116,45 @@ class UsersController extends Controller
     	$user->delete();
     	session()->flash('success', '成功删除用户！');
     	return back();
+    }
+    /**
+     * 发送邮件
+     */
+    protected function sendEmailConfirmationTo($user)
+    {
+    	$view = 'emails.confirm';
+    	$data = compact('user');
+    	$to = $user->email;
+    	$subject = "感谢注册 Sample 应用！请确认你的邮箱。";
+    	Mail::send($view, $data, function($message) use ($to, $subject){
+    		$message->to($to)->subject($subject);
+    	});
+    }
+    /**
+     * 用户激活成功
+     * firstOrFail 表示查询第一个结果，没找到会报出异常
+     */
+    public function confirmEmail($token)
+    {
+    	// echo '3333333';
+    	// $user = User::where('activation_token', $token)->firstOrFail();
+    	// //给激活后的用户给定状态
+    	// $user->activated = true;
+    	// $user->activation_token = Null;
+    	// $user->save();
+    	// echo $user;exit;
+    	// Auth::login($user);
+    	// session()->flash('success', '恭喜你，激活成功！');
+     //    return redirect()->route('users.show', [$user]);
+
+    	$user = User::where('activation_token', $token)->firstOrFail();
+
+        $user->activated = true;
+        $user->activation_token = null;
+        $user->save();
+
+        Auth::login($user);
+        session()->flash('success', '恭喜你，激活成功！');
+        return redirect()->route('users.show', [$user]);
     }
 }

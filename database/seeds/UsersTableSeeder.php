@@ -22,6 +22,7 @@ class UsersTableSeeder extends Seeder
         $user->password = bcrypt('password');
         //把第一个用户设置为管理员
         $user->is_admin = true;
+        $user->activated = true;
         $user->save();
     }
 }
