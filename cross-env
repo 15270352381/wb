@@ -1,0 +1,13 @@
+
+Webpack is watching the files…
+
+ DONE  Compiled successfully in 6786ms17:17:39
+
+                                                                                                    Asset     Size  Chunks                    Chunk Names
+  fonts/vendor/bootstrap-sass/bootstrap/glyphicons-halflings-regular.eot?f4769f9bdb7466be65088239c12046d1  20.1 kB          [emitted]         
+fonts/vendor/bootstrap-sass/bootstrap/glyphicons-halflings-regular.woff2?448c34a56d699c29117adc64c43affeb    18 kB          [emitted]         
+ fonts/vendor/bootstrap-sass/bootstrap/glyphicons-halflings-regular.woff?fa2772327f55d8198301fdb8bcfc8158  23.4 kB          [emitted]         
+  fonts/vendor/bootstrap-sass/bootstrap/glyphicons-halflings-regular.ttf?e18bbf611f2a2e43afc071aa2f4e1512  45.4 kB          [emitted]         
+  fonts/vendor/bootstrap-sass/bootstrap/glyphicons-halflings-regular.svg?89889688147bd7575d6327160d64e760   109 kB          [emitted]         
+                                                                                               \js\app.js  1.27 MB       0  [emitted]  [big]  \js\app
+                                                                                             \css\app.css   296 kB       0  [emitted]  [big]  \js\app

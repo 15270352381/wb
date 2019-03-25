@@ -7,6 +7,15 @@ use Auth;
 
 class SessionsController extends Controller
 {
+	/**
+	 * 只允许为登录或为注册的用户访问
+	 */
+	public function __construct()
+	{
+		$this->middleware('guest', [
+				'only' => ['create']
+			]);
+	}
     /**
      * 登录页
      */
@@ -28,7 +37,8 @@ class SessionsController extends Controller
     	if (Auth::attempt($credentials, $request->has('remember'))) {
 
            session()->flash('success', '欢迎回来！');
-           return redirect()->route('users.show', [Auth::user()]);
+           //intended 把用户重定向到上一个页面
+           return redirect()->intended(route('users.show', [Auth::user()]));
         } else {
            session()->flash('danger', '很抱歉，您的邮箱和密码不匹配');
            return redirect()->back();
